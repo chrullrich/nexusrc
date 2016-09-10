@@ -1,0 +1,40 @@
+#! /bin/sh
+#
+# $FreeBSD: head/devel/git/files/git_daemon.in 307344 2012-11-12 20:32:17Z wxs $
+#
+
+# PROVIDE: nexus
+# REQUIRE: DAEMON
+# BEFORE:  apache24
+# KEYWORD: shutdown
+
+#
+# Add the following lines to /etc/rc.conf to enable nexus:
+#
+#nexus_enable="YES"
+
+. /etc/rc.subr
+
+name="nexus"
+rcvar="nexus_enable"
+
+load_rc_config $name
+
+# No nexus_user, nexus_group here; daemon(8) requires root
+# to write the pidfile.
+
+: ${nexus_enable:=NO}
+: ${nexus_directory:=/usr/local/nexus/nexus}
+: ${nexus_pidfile:=/var/run/nexus.pid}
+: ${nexus_flags:=-p ${nexus_pidfile} -u nexus}
+
+nexus_chdir=${nexus_directory}
+
+classpath=${nexus_directory}/lib/boot/nexus-main.jar:${nexus_directory}/lib/boot/org.apache.karaf.main-4.0.4.jar:${nexus_directory}/lib/boot/org.osgi.core-6.0.0.jar:${nexus_directory}/lib/boot/org.apache.karaf.diagnostic.boot-4.0.4.jar:${nexus_directory}/lib/boot/org.apache.karaf.jaas.boot-4.0.4.jar
+mainclass=org.sonatype.nexus.karaf.NexusMain
+java=/usr/local/bin/java
+
+command="/usr/sbin/daemon"
+command_args="${java} -cp ${classpath} -Dkaraf.base=. -Dkaraf.data=data -Dkaraf.etc=etc -Dkaraf.home=. ${mainclass} >/dev/null 2>&1"
+
+run_rc_command "$1"
