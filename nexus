@@ -30,7 +30,10 @@ load_rc_config $name
 
 nexus_chdir=${nexus_directory}
 
-classpath=${nexus_directory}/lib/boot/nexus-main.jar:${nexus_directory}/lib/boot/org.apache.karaf.main-4.0.4.jar:${nexus_directory}/lib/boot/org.osgi.core-6.0.0.jar:${nexus_directory}/lib/boot/org.apache.karaf.diagnostic.boot-4.0.4.jar:${nexus_directory}/lib/boot/org.apache.karaf.jaas.boot-4.0.4.jar
+# https://stackoverflow.com/questions/1527049/
+join_by () { local IFS=":"; shift; echo "$*"; }
+classpath=$(join_by : $(echo ${nexus_directory}/lib/boot/*.jar))
+
 mainclass=org.sonatype.nexus.karaf.NexusMain
 java=/usr/local/bin/java
 
