@@ -25,10 +25,12 @@ load_rc_config $name
 
 : ${nexus_enable:=NO}
 : ${nexus_directory:=/usr/local/nexus/nexus}
-: ${nexus_pidfile:=/var/run/nexus.pid}
-: ${nexus_flags:=-p ${nexus_pidfile} -u nexus}
+pidfile=/var/run/nexus.pid
+: ${nexus_flags:=-p ${pidfile} -u nexus}
 
 nexus_chdir=${nexus_directory}
+
+procname=`head -n 1 /usr/local/etc/javavms`
 
 # https://stackoverflow.com/questions/1527049/
 join_by () { local IFS=":"; shift; echo "$*"; }
