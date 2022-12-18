@@ -40,6 +40,6 @@ mainclass=org.sonatype.nexus.karaf.NexusMain
 java=/usr/local/bin/java
 
 command="/usr/sbin/daemon"
-command_args="${java} -cp ${classpath} -XX:+UnlockDiagnosticVMOptions -XX:+LogVMOutput -XX:LogFile=../sonatype-work/nexus3/log/jvm.log -Dkaraf.base=. -Dkaraf.data=../sonatype-work/nexus3 -Dkaraf.etc=etc/karaf -Dkaraf.home=. -Djava.util.logging.config.file=etc/karaf/java.util.logging.properties -Djava.io.tmpdir=../sonatype-work/nexus3/tmp -Dstorage.diskCache.diskFreeSpaceLimit=512 ${mainclass} >/dev/null 2>&1"
+command_args="${java} -cp ${classpath} -XX:+UnlockDiagnosticVMOptions -XX:+UnsyncloadClass -XX:+LogVMOutput -XX:LogFile=../sonatype-work/nexus3/log/jvm.log -Dkaraf.base=. -Dkaraf.data=../sonatype-work/nexus3 -Dkaraf.etc=etc/karaf -Dkaraf.home=. -Djava.util.logging.config.file=etc/karaf/java.util.logging.properties -Djava.io.tmpdir=../sonatype-work/nexus3/tmp -Dstorage.diskCache.diskFreeSpaceLimit=512 ${mainclass} >/dev/null 2>&1"
 
 run_rc_command "$1"
